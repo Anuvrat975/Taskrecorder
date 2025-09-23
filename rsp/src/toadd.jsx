@@ -30,12 +30,12 @@ export default function Toadd({input1, setRes, selected, setInput, username}) {
     const e1 = nv2.current.value
     const s2 = s1.toString()
     const e2 = e1.toString()
-    console.log(in1.current)
+    console.log(in1)
     
     setLen(len+1)
     const task = in1.toString()   
     try{
-      const res = await axios.post(`https://taskrecorder-six.vercel.app/${username}`, { task: task, s2: s2, e2: e2 })
+      const res = await axios.post(`https://taskrecorder-six.vercel.app/addtask/${username}`, { task: task, s2: s2, e2: e2 })
       console.log(res)
       setRes(len)
     }
@@ -46,7 +46,7 @@ export default function Toadd({input1, setRes, selected, setInput, username}) {
 
   const handleDelete = async (e)=>{
     try{
-      const res = await axios.post(`https://taskrecorder-six.vercel.app/${username}`, {selected: selected})
+      const res = await axios.post(`https://taskrecorder-six.vercel.app/deltask/${username}`, {selected: selected})
       console.log(res)
       setRes(Date.now())      
     }catch(err){
