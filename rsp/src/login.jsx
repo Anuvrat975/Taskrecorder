@@ -27,7 +27,8 @@ export default function Login() {
         navigate('/container');
       }
       else{
-        alert('Login failed')//This 
+        alert('Login failed')
+        setitLoading(false)
       }
     }
     catch(err){
