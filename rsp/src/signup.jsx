@@ -30,7 +30,7 @@ export default function Signup() {
     setLoading(true);//1
     
     try {
-      const res = await axios.post('http://localhost:5000/signup', {
+      const res = await axios.post('https://taskrecorder-six.vercel.app/signup', {
         uname: username,  // Use local variables instead of state
         pass: password
       });

@@ -18,7 +18,7 @@ export default function Login() {
     /*while()*/
     try{
   
-      const res = await axios.post('http://localhost:5000/login',{uname:u, pwd:p})
+      const res = await axios.post('https://taskrecorder-six.vercel.app/login',{uname:u, pwd:p})
       console.log(res.status)
       if(res.status===200){
         setUsername(u) 
