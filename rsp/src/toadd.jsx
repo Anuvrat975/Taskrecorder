@@ -1,7 +1,7 @@
 import React, {useState, useRef} from 'react'
 import axios from 'axios'
 
-export default function Toadd({input1, setRes, selected, setInput}) {
+export default function Toadd({input1, setRes, selected, setInput, username}) {
    const [start, setStart] = useState(true)
    const [end, setEnd] = useState(true)
    const [len, setLen] = useState(0)
@@ -35,7 +35,7 @@ export default function Toadd({input1, setRes, selected, setInput}) {
     setLen(len+1)
     const task = in1.toString()   
     try{
-      const res = await axios.post('http://localhost:5000/addtask', { task: task, s2: s2, e2: e2 })
+      const res = await axios.post(`http://localhost:5000/addtask/${username}`, { task: task, s2: s2, e2: e2 })
       console.log(res)
       setRes(len)
     }
@@ -46,7 +46,7 @@ export default function Toadd({input1, setRes, selected, setInput}) {
 
   const handleDelete = async (e)=>{
     try{
-      const res = await axios.post('https://todolist-be-six.vercel.app/deltask', {selected: selected})
+      const res = await axios.post(`http://localhost:5000/deltask/${username}`, {selected: selected})
       console.log(res)
       setRes(Date.now())      
     }catch(err){

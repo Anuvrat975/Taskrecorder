@@ -1,39 +1,70 @@
-import React, {useState} from 'react'
-import axios from 'axios'
+import React, { useState } from 'react';
+import axios from 'axios';
 
 export default function Signup() {
-  const [usc, setUser] = useState([])
-  const p1 = document.getElementById('p1').value
-  const p2 = document.getElementById('p2').value
-  const handleInput = async (e) =>{
-    e.preventDefault()
-    if(p1===p2){
-      setUser([e.target[0].value, e.target[1].value])// set user in usc array now can be used to send to backend
-      try{
-        const res = await axios.post('http://localhost:5000/signup',{uname:usc[0], pass:usc[1]})
-      } 
-      catch(err){
-        console.log(err)
-      }
-    }
-    else{
-      alert('password donot match')
-      document.getElementById('p1').value = ''
-      document.getElementById('p2').value = ''
-    }
+  const [usc, setUser] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  }  
+  const handleInput = async (e) => {
+    e.preventDefault();
+    
+    const username = e.target[0].value;
+    const password = e.target[1].value;
+    const confirmPassword = e.target[2].value;
+    
+    // Input validation
+    if (!username || !password || !confirmPassword) {
+      alert('Please fill all fields');
+      return;
+    }
+    
+    if (password !== confirmPassword) {
+      alert('Passwords do not match');
+      e.target[0].value = '';
+      e.target[1].value = '';
+      e.target[2].value = '';
+      setUser([]);
+      return;
+    }
+    
+    setLoading(true);//1
+    
+    try {
+      const res = await axios.post('http://localhost:5000/signup', {
+        uname: username,  // Use local variables instead of state
+        pass: password
+      });
+      
+      console.log(res);
+      alert('Signup successful!');//1 read about
+      
+      // Clear form on success
+      e.target[0].value = '';
+      e.target[1].value = '';
+      e.target[2].value = '';
+      setUser([]);
+      
+    } catch (err) {
+      console.log(err);
+      alert('Signup failed: ' + (err.response?.data?.error || err.message));
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div>
-        <form onSubmit={handleInput}>
+      <form onSubmit={handleInput}>
         <label>Username</label>
-        <input type='text'/>
+        <input type='text' required /><br/><br/>
         <label>New Password</label>
-        <input type='password' id = 'p1'/>
+        <input type='password' id='p1' required /><br/><br/>
         <label>Confirm Password</label>
-        <input type='password' id='p2'/>
-        <button id='b2'>Submit</button>
-        </form>        
+        <input type='password' id='p2' required /><br/><br/>
+        <button type='submit' disabled={loading}>
+          {loading ? 'Signing up...' : 'Submit'}
+        </button>
+      </form>
     </div>
-  )
+  );
 }
