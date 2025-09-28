@@ -46,7 +46,7 @@ export default function Login() {
        <button id='b1'>Submit</button><br/>
        <span><p>New User ?</p> </span>       
         <Link to='/signup'>Sign up</Link><br/>
-       <p>{loading ? 'Loading...' : 'Hello'}</p>
+       <p>{loading ? 'Loading...this may take a few seconds' : 'Hello'}</p>
       </form>
     </div>
   )
